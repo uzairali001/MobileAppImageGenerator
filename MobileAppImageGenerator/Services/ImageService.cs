@@ -6,7 +6,7 @@ namespace MobileAppImageGenerator.Core.Services;
 
 public class ImageService
 {
-    public Stream ResizeImage(FileResizeOptions options)
+    public MemoryStream ResizeImage(FileResizeOptions options, string output)
     {
         if (!File.Exists(options.FilePath))
         {
@@ -28,7 +28,15 @@ public class ImageService
         using var outputImage = SKImage.FromBitmap(resizedImage);
         using var data = outputImage.Encode(format, options.Quality);
 
-        return data.AsStream();
+        //return data.AsStream();
+        //using var outputStream = File.Open(output, FileMode.OpenOrCreate);
+        //data.SaveTo(outputStream);
+
+        MemoryStream ms = new ();
+        data.SaveTo(ms);
+
+        return ms;
+
         //using var outputStream = File.Open($"images/output_{Path.GetFileNameWithoutExtension(options.FilePath)}.png", FileMode.OpenOrCreate);
     }
 }
