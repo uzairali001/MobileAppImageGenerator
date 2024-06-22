@@ -56,8 +56,10 @@ foreach (string file in files)
     Console.WriteLine();
 }
 
-Console.WriteLine("Completed!");
+Console.WriteLine($"Total {files.Count() * resolutions.Count()} files generated from {files.Count()} files.");
+Console.WriteLine("Press any key to exit...");
 
+Console.ReadKey();
 
 static void PrintHelp()
 {
