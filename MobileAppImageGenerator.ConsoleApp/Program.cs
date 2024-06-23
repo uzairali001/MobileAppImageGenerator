@@ -48,7 +48,7 @@ foreach (string file in files)
     foreach (AndroidImageResolution resolution in resolutions)
     {
         string outputFileName = Path.ChangeExtension(Path.GetFileName(file), ".png");
-        string outputPath = Path.Combine(outputDirectory, resolution.Name, outputFileName);
+        string outputPath = Path.Combine(outputDirectory, $"drawable-{resolution.Name}", outputFileName);
         Console.WriteLine($"Generating => {outputPath}");
         await ProcessFile(file, outputPath, resolution.Resolution);
     }
@@ -78,7 +78,7 @@ async Task ProcessFile(string input, string output, int resolution)
 {
     Directory.CreateDirectory(Path.GetDirectoryName(output)!);
 
-    using MemoryStream stream = imageService.ResizeImage(new FileResizeOptions()
+    using Stream stream = imageService.ResizeImage(new FileResizeOptions()
     {
         FilePath = input,
         Width = resolution,
@@ -87,4 +87,7 @@ async Task ProcessFile(string input, string output, int resolution)
 
     using var outputStream = File.Open(output, FileMode.OpenOrCreate);
     await stream.CopyToAsync(outputStream);
+
+    outputStream.Close();
+    stream.Close();
 }

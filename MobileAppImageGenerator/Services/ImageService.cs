@@ -6,7 +6,7 @@ namespace MobileAppImageGenerator.Core.Services;
 
 public class ImageService
 {
-    public MemoryStream ResizeImage(FileResizeOptions options, string output)
+    public Stream ResizeImage(FileResizeOptions options, string output)
     {
         if (!File.Exists(options.FilePath))
         {
@@ -32,11 +32,18 @@ public class ImageService
         //using var outputStream = File.Open(output, FileMode.OpenOrCreate);
         //data.SaveTo(outputStream);
 
-        MemoryStream ms = new ();
+        //Stream ms = new MemoryStream();
+        //data.AsStream().CopyTo(ms);
+
+        var ms = new MemoryStream();
         data.SaveTo(ms);
+        ms.Position = 0;
+
+        //using var outputStream = File.Open($"images/output_{Path.GetFileNameWithoutExtension(options.FilePath)}.png", FileMode.OpenOrCreate);
+        //using var outputStream = File.Open(output, FileMode.OpenOrCreate);
+        //ms.CopyTo(outputStream);
 
         return ms;
 
-        //using var outputStream = File.Open($"images/output_{Path.GetFileNameWithoutExtension(options.FilePath)}.png", FileMode.OpenOrCreate);
     }
 }
