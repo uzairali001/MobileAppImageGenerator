@@ -47,7 +47,7 @@ foreach (string file in files)
 {
     foreach (AndroidImageResolution resolution in resolutions)
     {
-        string outputFileName = Path.ChangeExtension(Path.GetFileName(file), ".png");
+        string outputFileName = Path.ChangeExtension(Path.GetFileName(file).Replace(" ", "_").Replace("-","_"), ".png");
         string outputPath = Path.Combine(outputDirectory, $"drawable-{resolution.Name}", outputFileName);
         Console.WriteLine($"Generating => {outputPath}");
         await ProcessFile(file, outputPath, resolution.Resolution);
